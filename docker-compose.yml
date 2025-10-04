@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_doevida
+    environment:
+      POSTGRES_DB: doevida_db
+      POSTGRES_USER: doevida_user
+      POSTGRES_PASSWORD: doevida_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - doevida_network
+
+  backend:
+    build: ../../../../Desktop/doevida-back-end
+    container_name: backend_doevida
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/doevida_db
+      SPRING_DATASOURCE_USERNAME: doevida_user
+      SPRING_DATASOURCE_PASSWORD: doevida_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - doevida_network
+
+volumes:
+  postgres_data:
+
+networks:
+  doevida_network:
+    driver: bridge
