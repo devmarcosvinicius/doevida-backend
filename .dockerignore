@@ -1,0 +1,80 @@
+# Maven/Gradle build outputs
+target/
+build/
+out/
+classes/
+bin/
+
+# Dependências baixadas localmente (não necessárias no contexto)
+.mvn/
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# IDEs e metadados
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+.nbproject/
+
+# Logs e temporários
+logs/
+*.log
+*.tmp
+tmp/
+temp/
+hs_err_pid*
+replay_pid*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Controle de versão
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+.svn/
+
+# Test reports e cobertura
+surefire-reports/
+failsafe-reports/
+jacoco.exec
+jacoco/
+coverage/
+.cobertura/
+.clover/
+
+# Arquivos de configuração locais
+*.env
+*.local
+*.secret
+.env
+.env.*
+!.env.example
+
+# Arquivos de cache
+*.swp
+*.swo
+*.cache
+.cache/
+.node/
+.npm/
+
+# Docker
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Arquivos gerados por ferramentas
+target/generated-sources/
+target/generated-test-sources/
