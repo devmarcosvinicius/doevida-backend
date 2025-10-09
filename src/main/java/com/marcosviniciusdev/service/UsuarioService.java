@@ -38,8 +38,24 @@ public class UsuarioService {
     }
 
     public UsuarioResponse atualizar(Long id, UsuarioRequest dto) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        return UsuarioResponse.fromEntity(usuario);
+        // 1. Busca o usuário que já existe no banco
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // 2. ATUALIZA os campos do usuário existente com os dados do DTO
+        //    (Não atualizamos CPF nem senha aqui por segurança e regra de negócio)
+        usuarioExistente.setNome(dto.nome());
+        usuarioExistente.setEmail(dto.email());
+        usuarioExistente.setPerfil(dto.perfil());
+        usuarioExistente.setTelefone(dto.telefone());
+        usuarioExistente.setEndereco(dto.endereco());
+        usuarioExistente.setTipoSanguineo(dto.tipoSanguineo());
+
+        // 3. Salva o usuário com os dados atualizados
+        Usuario atualizado = usuarioRepository.save(usuarioExistente);
+
+        // 4. Retorna o DTO de resposta
+        return UsuarioResponse.fromEntity(atualizado);
     }
 
     public void deletar(Long id) {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus; // Adicione este import
 
 @RestController
 @RequestMapping("/instituicoes")
@@ -20,7 +21,8 @@ public class InstituicaoController {
     @PostMapping
     public ResponseEntity<InstituicaoResponse> criar(@RequestBody InstituicaoRequest dto) {
         InstituicaoResponse response = instituicaoService.criar(dto);
-        return ResponseEntity.ok(response);
+        // MELHORIA: Retornar 201 Created em vez de 200 OK
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
