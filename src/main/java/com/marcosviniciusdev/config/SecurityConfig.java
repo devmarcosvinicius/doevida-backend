@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy; // 1. NOV
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,21 +26,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                // 3. (MUDANÇA CRUCIAL) Define a política de sessão como STATELESS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        .requestMatchers("/usuarios/**").hasAnyAuthority("ADMIN", "DOADOR", "HEMOCENTRO")
-                        .anyRequest().authenticated()
-                )
-                // 4. Usa o filtro injetado na classe (this.jwtAuthFilter)
-                .addFilterBefore(this.jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .build();
+
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                // 3. (MUDANÇA CRUCIAL) Define a política de sessão como STATELESS
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(
+//                                "/auth/**",
+//                                "/v3/api-docs/**",
+//                                "/swagger-ui/**",
+//                                "/swagger-ui.html"
+//                        ).permitAll()
+//                        .requestMatchers("/usuarios/**").hasAnyAuthority("ADMIN", "DOADOR", "HEMOCENTRO")
+//                        .anyRequest().authenticated()
+//                )
+//                // 4. Usa o filtro injetado na classe (this.jwtAuthFilter)
+//                .addFilterBefore(this.jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .build();
     }
 
     @Bean
